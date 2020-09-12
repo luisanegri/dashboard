@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container } from './styles';
+import Toggle from '../Toggle';
 
 const Header: React.FC = () => {
   return (
     <Container>
-      <h1>Header</h1>
+      <Toggle></Toggle>
     </Container>
   );
 };

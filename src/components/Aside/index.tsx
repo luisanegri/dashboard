@@ -30,7 +30,11 @@ const Aside: React.FC = () => {
         </Logo>
       </AsideHeader>
       <UserInfo>
-        <Username>Welcome, Luisa Negri</Username>
+        <img
+          src="https://api.adorable.io/avatars/50/abott@adorable.png"
+          alt="User"
+        />
+        <Username>Luisa Negri</Username>
       </UserInfo>
       <ContainerMenu>
         <MenuLink href="#">

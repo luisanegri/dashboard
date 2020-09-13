@@ -15,6 +15,13 @@ export const AsideHeader = styled.header`
 
 export const UserInfo = styled.div`
   margin: 30px 0;
+
+  > img {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 12px;
+  }
 `;
 
 export const Username = styled.p`

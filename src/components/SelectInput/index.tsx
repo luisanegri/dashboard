@@ -2,13 +2,20 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const SelectInput: React.FC = () => {
+interface ISelectInputProps {
+  options: {
+    value: string | number;
+    label: string | number;
+  }[];
+}
+
+const SelectInput: React.FC<ISelectInputProps> = ({ options }) => {
   return (
     <Container>
       <select>
-        <option value="a">March</option>
-        <option value="b">April</option>
-        <option value="c">May</option>
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
       </select>
     </Container>
   );

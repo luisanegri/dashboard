@@ -4,18 +4,35 @@ import SelectInput from '../../components/SelectInput';
 import Card from '../../components/Card';
 import ContentHeader from '../../components/ContentHeader/index';
 
-import { Container, Content } from './styles';
+import { Container, Content, Filter } from './styles';
 
 const List: React.FC = () => {
-  const options = [
-    { value: 'luisa', label: 'luisa' },
-    { value: 'ceren', label: 'ceren' },
+  const months = [
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
   ];
+
+  const years = [
+    { value: 2020, label: 2020 },
+    { value: 2019, label: 2019 },
+    { value: 2018, label: 2018 },
+  ];
+
   return (
     <Container>
       <ContentHeader title="Paid Out" lineColor="#EB403A">
-        <SelectInput options={options} />
+        <SelectInput options={months} />
+        <SelectInput options={years} />
       </ContentHeader>
+      <Filter>
+        <button type="button" className="tag-filter tag-filter-regular">
+          Regular
+        </button>
+        <button type="button" className="tag-filter tag-filter-eventual">
+          Eventual
+        </button>
+      </Filter>
       <Content>
         <Card
           tagColor="#EB403A"

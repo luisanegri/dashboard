@@ -37,15 +37,15 @@ const Aside: React.FC = () => {
         <Username>Luisa Negri</Username>
       </UserInfo>
       <ContainerMenu>
-        <MenuLink href="#">
+        <MenuLink href="/dashboard">
           <MdDashboard />
           Dashboard
         </MenuLink>
-        <MenuLink href="#">
+        <MenuLink href="/list/paidIn">
           <MdArrowUpward />
           Paid In
         </MenuLink>
-        <MenuLink href="#">
+        <MenuLink href="/list/paidOut">
           <MdArrowDownward />
           Paid Out
         </MenuLink>

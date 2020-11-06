@@ -8,6 +8,8 @@ import { Container, Content, Filter } from './styles';
 
 import gains from '../../data/gains';
 import expenses from '../../data/expenses';
+import currencyFormatter from '../../utils/currencyFormatter'
+import dateFormatter from '../../utils/dateFormatter'
 
 interface IRouteParams {
   match: {
@@ -60,9 +62,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       return {
         id: String(Math.random() * data.length),
         description: i.description,
-        amount: i.amount,
+        amount: currencyFormatter(Number(i.amount)),
         frequency: i.frequency,
-        date: i.date,
+        date: dateFormatter(i.date),
         tagColor: i.frequency === 'regular' ? ' #EB403A' : '#00D5AD',
       };
     })

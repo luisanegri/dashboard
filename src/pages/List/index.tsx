@@ -1,10 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 import SelectInput from '../../components/SelectInput';
 import Card from '../../components/Card';
 import ContentHeader from '../../components/ContentHeader/index';
 
 import { Container, Content, Filter } from './styles';
+
+import gains from '../../data/gains';
+import expenses from '../../data/expenses';
 
 interface IRouteParams {
   match: {
@@ -14,13 +17,29 @@ interface IRouteParams {
   };
 }
 
+interface IData {
+  id: string;
+  description: string;
+  amount: string;
+  frequency: string;
+  date: string;
+  tagColor: string;
+}
+
 const List: React.FC<IRouteParams> = ({ match }) => {
+  const [data, setData] = useState<IData[]>([]);
   const { type } = match.params;
 
   const title = useMemo(() => {
-    return type === 'paidIn'
-      ? { text: 'Paid In', lineColor: '#7159FF' }
-      : { text: 'Paid Out', lineColor: '#EB403A' };
+    return type === 'paidIn' ? 'Paid In' : 'Paid Out';
+  }, [type]);
+
+  const lineColor = useMemo(() => {
+    return type === 'paidIn' ? '#7159FF' : '#EB403A';
+  }, [type]);
+
+  const listData = useMemo(() => {
+    return type === 'paidIn' ? gains : expenses;
   }, [type]);
 
   const months = [
@@ -35,9 +54,25 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     { value: 2018, label: 2018 },
   ];
 
+  useEffect(() => {
+
+    const history = listData.map((i) => {
+      return {
+        id: String(Math.random() * data.length),
+        description: i.description,
+        amount: i.amount,
+        frequency: i.frequency,
+        date: i.date,
+        tagColor: i.frequency === 'regular' ? ' #EB403A' : '#00D5AD',
+      };
+    })
+    
+    setData(history)
+  }, [data.length, listData]);
+
   return (
     <Container>
-      <ContentHeader title={title.text} lineColor={title.lineColor}>
+      <ContentHeader title={title} lineColor={lineColor}>
         <SelectInput options={months} />
         <SelectInput options={years} />
       </ContentHeader>
@@ -50,12 +85,21 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         </button>
       </Filter>
       <Content>
-        <Card
-          tagColor="#EB403A"
-          title="Electricity bill"
-          subtitle="01/11/2020"
-          amount="€150"
-        />
+      
+        {
+          data.map(i => (
+            <Card
+            key={i.id}
+            tagColor={i.tagColor}
+            title={i.description}
+            subtitle={i.date}
+            amount={i.amount}
+          />
+            ))
+          
+        
+        }
+        
       </Content>
     </Container>
   );

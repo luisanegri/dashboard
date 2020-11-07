@@ -47,36 +47,50 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     return type === 'paidIn' ? gains : expenses;
   }, [type]);
 
-  const months = [
-    { value: 1, label: 'January' },
-    { value: 2, label: 'February' },
-    { value: 3, label: 'March' },
-    { value: 4, label: 'April' },
-    { value: 5, label: 'May' },
-    { value: 6, label: 'June' },
-    { value: 7, label: 'July' },
-    { value: 8, label: 'August' },
-    { value: 9, label: 'September' },
-    { value: 10, label: 'October' },
-    { value: 11, label: 'November' },
-    { value: 12, label: 'December' },
-  ];
+  const months = useMemo(() => {
+    let uniqueMonths: number[] = []
 
-  const years = [
-    { value: 2018, label: 2018 },
-    { value: 2019, label: 2019 },
-    { value: 2020, label: 2020 },
-  ];
+    listData.forEach((item) => {
+      const date = new Date(item.date);
+      const month = date.getMonth() + 1
+     // const month = date.toLocaleString('default', { month: 'long' });
+      if(!uniqueMonths.includes(month)) {
+        uniqueMonths.push(month)
+      }
+    })
+
+    return uniqueMonths.map((month, index) => {
+      return {key: index, value: month, label: month}
+    })
+
+
+  }, [listData])
+
+  const years = useMemo(() => {
+    let uniqueYears: number[] = []
+
+    listData.forEach((item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+
+      if(!uniqueYears.includes(year)) {
+        uniqueYears.push(year)
+      }
+    })
+
+    return uniqueYears.map((year, index) => {
+      return {key: index, value: year, label: year}
+    })
+
+  }, [listData])
 
   useEffect(() => {
-
     const filtered = listData.filter((i) => {
       const date = new Date(i.date)
       const month = String(date.getMonth() + 1)
       const year = String(date.getFullYear())
 
       return month === monthSelected && year === yearSelected 
-
     })
 
     const dataList = filtered.map((item, index) => {
@@ -90,9 +104,8 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       };
     })
 
-    
     setData(dataList)
-  }, [data.length, listData, monthSelected, yearSelected]);
+  }, [listData, monthSelected, yearSelected]);
 
   return (
     <Container>

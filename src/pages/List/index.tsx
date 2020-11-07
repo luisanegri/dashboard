@@ -20,7 +20,7 @@ interface IRouteParams {
 }
 
 interface IData {
-  id: string;
+  id: number;
   description: string;
   amount: string;
   frequency: string;
@@ -70,19 +70,29 @@ const List: React.FC<IRouteParams> = ({ match }) => {
 
   useEffect(() => {
 
-    const history = listData.map((i) => {
+    const filtered = listData.filter((i) => {
+      const date = new Date(i.date)
+      const month = String(date.getMonth() + 1)
+      const year = String(date.getFullYear())
+
+      return month === monthSelected && year === yearSelected 
+
+    })
+
+    const dataList = filtered.map((item, index) => {
       return {
-        id: String(Math.random() * data.length),
-        description: i.description,
-        amount: currencyFormatter(Number(i.amount)),
-        frequency: i.frequency,
-        date: dateFormatter(i.date),
-        tagColor: i.frequency === 'regular' ? ' #EB403A' : '#00D5AD',
+        id: Number(index),
+        description: item.description,
+        amount: currencyFormatter(Number(item.amount)),
+        frequency: item.frequency,
+        date: dateFormatter(item.date),
+        tagColor: item.frequency === 'regular' ? ' #EB403A' : '#00D5AD',
       };
     })
+
     
-    setData(history)
-  }, [data.length, listData]);
+    setData(dataList)
+  }, [data.length, listData, monthSelected, yearSelected]);
 
   return (
     <Container>
